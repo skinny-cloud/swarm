@@ -92,6 +92,22 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 }
 
+/* Single live instrument — present it as the flagship, no placeholder tiles. */
+.grid--single { grid-template-columns: 1fr; }
+
+.card--feature .card-link { padding: clamp(var(--space-6), 4vw, var(--space-8)); }
+.card--feature .card-title { font-size: clamp(var(--text-2xl), 4vw, var(--text-3xl)); }
+.card--feature .card-kicker { font-size: var(--text-md); }
+.card--feature .card-desc { max-width: 46rem; font-size: var(--text-base); }
+
+.roadmap-note {
+  margin: var(--space-6) 0 0;
+  max-width: 42rem;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: var(--leading-relaxed);
+}
+
 .card {
   position: relative;
   display: flex; flex-direction: column;
