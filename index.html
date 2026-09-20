@@ -7,7 +7,9 @@
   <!-- Same hard boundary as the instruments: the browser may reach nothing but
        this origin. No script at all on the landing; styles are same-origin
        stylesheets; data: only for the inline favicon. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" />
+  <!-- frame-ancestors is delivered as an HTTP header (vercel.json); it is
+       ignored inside a <meta> CSP, so it is intentionally not here. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'" />
   <meta name="referrer" content="no-referrer" />
 
   <title>swarm — a public agent-systems laboratory</title>
