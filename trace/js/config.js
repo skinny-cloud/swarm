@@ -5,8 +5,13 @@
 
 /* The single line to flip at real launch. The public bundle cannot carry an
    is_sample flag (schema is additionalProperties:false), so sample mode is a
-   build-time constant, not data. See README. */
-export const SAMPLE_MODE = true;
+   build-time constant, not data. See README.
+   2026-09-20: flipped to false — the real #62 v1 bundle is wired (dx3 export,
+   sha256 488b812b…, jsonschema 0-error). It is REAL evidence, not sample data,
+   so the "Sample data" banner is off; the pre-certification state is carried
+   honestly by the bundle's own note and by every claim rendering in_review
+   (nothing is VERIFIED-green until CODEX independent tier-cert lands). */
+export const SAMPLE_MODE = false;
 
 /* Same-origin, relative. This is the ONLY resource the app fetches. */
 export const BUNDLE_PATH = "./data/public-bundle.json";

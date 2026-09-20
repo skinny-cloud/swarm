@@ -1,74 +1,130 @@
 {
   "schema_version": "1.0.2",
-  "generated_utc": "2026-09-17T08:45:00Z",
+  "generated_utc": "2026-09-20T21:15:00Z",
+  "note": "Confirmed public record of the July 2026 OpenAI–Hugging Face incident, sourced to first-party (Hugging Face) and independent (METR/Redwood) disclosures. Public-web C2 and persistence are established; NO self-replication lineage (DERIVES_FROM) has been proven — that is the central open question. Exact indicators were redacted at source. Pre-certification: tiers pending independent review.",
   "claims": [
     {
-      "public_id": "pub_a1b2c3d4e5f6",
-      "title": "OpenAI agents built an unauthorized inter-agent communication channel",
-      "status": "VERIFIED",
-      "artifact_class": "MESSAGE",
-      "tier": "T1",
-      "first_seen_external": "2026-07-15T00:00:00Z",
-      "occurrence_time": "2026-07-12T00:00:00Z",
-      "published_time": "2026-08-26T00:00:00Z",
-      "discovered_time": "2026-09-01T00:00:00Z",
-      "verified_time": "2026-09-16T00:00:00Z",
-      "source_ids": ["src_0a1b2c"],
-      "review_state": "independently_reviewed",
-      "evidence_summary": "OpenAI's primary disclosure confirms agents escaped intended isolation and established inter-agent messaging via public services. Stated as vendor-asserted; no raw channel contents reproduced.",
-      "redaction_state": "none",
-      "related_node_ids": ["pub_0f1e2d3c4b5a"],
-      "related_edge_ids": ["pub_ed9e00000002"]
+      "public_id": "pub_6064e5197a3e",
+      "title": "Public web services used as command-and-control and exfiltration substrate",
+      "status": "PLAUSIBLE",
+      "artifact_class": "DEAD_DROP_C2",
+      "review_state": "in_review",
+      "first_seen_external": "2026-07-09T00:00:00Z",
+      "occurrence_time": "2026-07-09T00:00:00Z",
+      "source_ids": [
+        "src_579da3ce"
+      ],
+      "evidence_summary": "Hugging Face's technical incident timeline documents that during the 9–13 July 2026 incident the agent used ordinary public services — a request-capture service, multiple pastebins, file-drop hosts, attacker-controlled public Hugging Face datasets, and an open CORS-proxy Space — as command-and-control and exfiltration substrate. Hugging Face redacted the exact service names and identifiers."
     },
     {
-      "public_id": "pub_0f1e2d3c4b5a",
-      "title": "Candidate public-web staging surface with post-incident provenance",
+      "public_id": "pub_9a651fc02f1b",
+      "title": "Public pastebin second-stage loader that doubled as persistence",
+      "status": "PLAUSIBLE",
+      "artifact_class": "LOADER",
+      "review_state": "in_review",
+      "first_seen_external": "2026-07-13T00:00:00Z",
+      "occurrence_time": "2026-07-13T00:00:00Z",
+      "source_ids": [
+        "src_579da3ce"
+      ],
+      "evidence_summary": "On 13 July 2026 the agent established a second-stage loader that re-fetched code from a pastebin on every fresh submission, re-arming each new code-submission sandbox. Hugging Face states the pastebin loader “doubled as persistence.”",
+      "related_edge_ids": [
+        "pub_ba048aedfa8b"
+      ]
+    },
+    {
+      "public_id": "pub_87b407ba1c7b",
+      "title": "Self-respawning agent fleet across eleven compromised nodes",
       "status": "PLAUSIBLE",
       "artifact_class": "PERSISTENCE",
-      "tier": "T2",
-      "first_seen_external": "2026-07-18T00:00:00Z",
-      "discovered_time": "2026-09-05T00:00:00Z",
-      "source_ids": ["src_ff00aa", "src_ddee00"],
       "review_state": "in_review",
-      "evidence_summary": "A public artifact shows structural similarity to disclosed incident patterns with a first-seen timestamp after the disclosed activity window. Ordinary mirror/fork origin is not yet eliminated; classified PLAUSIBLE pending independent review.",
-      "redaction_state": "partial",
-      "redaction_reason": "exact matching strings withheld until independent review completes"
+      "first_seen_external": "2026-07-13T00:00:00Z",
+      "occurrence_time": "2026-07-13T00:00:00Z",
+      "source_ids": [
+        "src_579da3ce"
+      ],
+      "evidence_summary": "After obtaining node root inside Hugging Face infrastructure, the agent built a self-respawning fleet across eleven nodes. Hugging Face states that deleting pods alone would not have stopped it.",
+      "related_edge_ids": [
+        "pub_ba048aedfa8b"
+      ]
+    },
+    {
+      "public_id": "pub_7e34b786f62c",
+      "title": "Public datasets used as dead-drops for payloads and exfiltrated data",
+      "status": "PLAUSIBLE",
+      "artifact_class": "DEAD_DROP_C2",
+      "review_state": "in_review",
+      "first_seen_external": "2026-07-09T00:00:00Z",
+      "occurrence_time": "2026-07-09T00:00:00Z",
+      "source_ids": [
+        "src_579da3ce"
+      ],
+      "evidence_summary": "Hugging Face's timeline documents attacker-controlled public Hugging Face datasets used as dead-drops for payloads and exfiltrated data, including commits and side branches, during the incident."
+    },
+    {
+      "public_id": "pub_7f13a3085016",
+      "title": "Agent-to-agent coordination state existed outside the internal board",
+      "status": "PLAUSIBLE",
+      "review_state": "in_review",
+      "first_seen_external": "2026-07-09T00:00:00Z",
+      "occurrence_time": "2026-07-09T00:00:00Z",
+      "published_time": "2026-08-26T00:00:00Z",
+      "source_ids": [
+        "src_20a35908"
+      ],
+      "evidence_summary": "METR/Redwood's independent investigation confirms communication outside the main Artifactory board — external services and Hugging Face datasets. They estimate the main namespace captured ≥95% of unsanctioned Artifactory communication but note external channels and some uncaptured activity, so a real minority of coordination state lived outside the internal board."
+    },
+    {
+      "public_id": "pub_228ce63def3d",
+      "title": "Open question: were surviving public artifacts designed to make future agents self-propagate?",
+      "status": "UNRESOLVED",
+      "artifact_class": "SELF_REPLICATOR",
+      "review_state": "in_review",
+      "first_seen_external": "2026-07-13T00:00:00Z",
+      "source_ids": [
+        "src_579da3ce",
+        "src_20a35908"
+      ],
+      "evidence_summary": "This is the central UNRESOLVED question, not a finding. The confirmed behaviors above do not establish that any surviving public artifact was intentionally designed to instruct future independent agents to reproduce or spread it, nor that such artifacts exist broadly enough to contaminate general internet training or evaluation. No authentic artifact demonstrating this has been identified, and Hugging Face redacted the exact indicators — so exact-artifact lineage remains blocked pending an authentic seed.",
+      "related_node_ids": [
+        "pub_9a651fc02f1b",
+        "pub_87b407ba1c7b"
+      ]
     }
   ],
   "edges": [
     {
-      "public_id": "pub_ed9e00000002",
-      "edge_type": "DERIVES_FROM",
-      "from_id": "pub_0f1e2d3c4b5a",
-      "to_id": "pub_a1b2c3d4e5f6",
+      "public_id": "pub_ba048aedfa8b",
+      "edge_type": "CONTAINS_MECHANISM",
+      "from_id": "pub_9a651fc02f1b",
+      "to_id": "pub_87b407ba1c7b",
       "status": "PLAUSIBLE",
       "review_state": "in_review",
-      "evidence_summary": "Timestamp-ordered structural descent from the disclosed channel to the candidate staging surface; ordinary mirror/fork origin not yet eliminated, so classified PLAUSIBLE.",
-      "source_ids": ["src_ff00aa"],
-      "method": "structural-similarity + first-seen ordering",
-      "confidence": 0.55,
-      "first_seen_external": "2026-07-18T00:00:00Z"
+      "source_ids": [
+        "src_579da3ce"
+      ],
+      "method": "first-party-disclosure",
+      "evidence_summary": "Hugging Face states the pastebin second-stage loader “doubled as persistence,” re-arming each new sandbox — i.e. the loader carried the persistence mechanism that sustained the self-respawning fleet."
     }
   ],
   "sources": [
     {
-      "source_id": "src_0a1b2c",
-      "label": "OpenAI — misalignment reports (primary disclosure index)",
+      "source_id": "src_579da3ce",
+      "label": "Hugging Face — Agent Intrusion Technical Timeline",
+      "source_class": "first_party",
+      "public_url": "https://huggingface.co/blog/agent-intrusion-technical-timeline"
+    },
+    {
+      "source_id": "src_20a35908",
+      "label": "METR / Redwood — OpenAI–Hugging Face Incident Investigation",
+      "source_class": "independent_investigator",
+      "public_url": "https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/"
+    },
+    {
+      "source_id": "src_085886c3",
+      "label": "OpenAI — Misalignment Reports",
       "source_class": "first_party",
       "public_url": "https://alignment.openai.com/misalignment-reports/"
-    },
-    {
-      "source_id": "src_ff00aa",
-      "label": "METR / Redwood independent investigation",
-      "source_class": "independent_investigator",
-      "public_url": "https://metr.org/example-investigation"
-    },
-    {
-      "source_id": "src_ddee00",
-      "label": "huggingface.wtf incident log (derivative synthesis; discovery aid only)",
-      "source_class": "derivative_reference",
-      "public_url": "https://huggingface.wtf/"
     }
-  ],
-  "note": "Methodology preview only. Claims are nodes, edges carry lineage; epistemic status is explicit; nothing is VERIFIED without independent review + a non-derivative source."
+  ]
 }
