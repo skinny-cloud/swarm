@@ -54,7 +54,7 @@ export function renderGraph(mount, model, onOpen) {
   });
 
   const cols = model.timeline.length;
-  const width = M.left + Math.max(0, cols - 1) * COL + M.right + 40;
+  const width = Math.max(320, M.left + Math.max(0, cols - 1) * COL + M.right + 40);
   const height = M.top + laneCount * LANE + M.bottom;
 
   const svg = s("svg", {
@@ -103,8 +103,15 @@ export function renderGraph(mount, model, onOpen) {
 
   // Nodes.
   const nodeLayer = s("g");
+  const lastCol = cols - 1;
   model.timeline.forEach((c) => {
     const p = pos.get(c.public_id);
+    // Edge-aware label anchoring: the first/last chronological columns sit against
+    // the SVG frame, so a middle-anchored label there overflows the viewBox and
+    // clips. Anchor the leftmost column's text to "start" and the rightmost to
+    // "end" so labels always grow inward. Interior columns stay centred.
+    const col = rank.get(c.public_id);
+    const anchor = col === 0 ? "start" : col === lastCol ? "end" : "middle";
     const gateNote = c._gate === "mismatch" ? " Review gate NOT satisfied — not a verified finding." : "";
     const g = s("g", {
       class: "node-group", role: "button", tabindex: "0",
@@ -114,8 +121,8 @@ export function renderGraph(mount, model, onOpen) {
       "data-testid": "graph-node", "data-public-id": c.public_id,
     }, [
       s("circle", { class: "node-dot", cx: p.x, cy: p.y, r: R }),
-      s("text", { class: "node-label", x: p.x, y: p.y - R - 8, "text-anchor": "middle" }, truncate(c.title, 26)),
-      s("text", { class: "node-id", x: p.x, y: p.y + R + 16, "text-anchor": "middle" }, c.public_id),
+      s("text", { class: "node-label", x: p.x, y: p.y - R - 8, "text-anchor": anchor }, truncate(c.title, 26)),
+      s("text", { class: "node-id", x: p.x, y: p.y + R + 16, "text-anchor": anchor }, c.public_id),
     ]);
     g.addEventListener("click", () => onOpen("claim", c.public_id));
     g.addEventListener("keydown", (ev) => activate(ev, () => onOpen("claim", c.public_id)));
