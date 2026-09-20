@@ -1,0 +1,152 @@
+/* =============================================================================
+   TRACE Observatory — Design Tokens
+   Sober dark forensic theme. Every value is a token (Law #2: Design System
+   Supremacy). 4px spacing grid · 1.25 type scale · elevation · radius · motion.
+   System fonts only — no external font imports of any kind.
+   ============================================================================= */
+
+:root {
+  /* ---- Color primitives (never used directly in components) ---------------- */
+  --c-ink-000: #f4f7fb;   /* brightest text */
+  --c-ink-100: #d6dde8;
+  --c-ink-200: #aab4c4;
+  --c-ink-300: #7f8a9c;   /* muted / captions */
+  --c-ink-400: #5a6474;   /* faint / disabled */
+
+  --c-base-900: #070a0e;  /* page background (not pure black) */
+  --c-base-850: #0b0f15;
+  --c-base-800: #0f141c;  /* surface */
+  --c-base-750: #131a24;  /* surface raised */
+  --c-base-700: #1a222e;  /* surface floating */
+  --c-base-650: #212b39;  /* hover */
+
+  --c-line-800: #202a37;  /* hairline borders */
+  --c-line-700: #2b3746;  /* borders */
+  --c-line-600: #3a4a5e;  /* border hover / focus ring base */
+
+  --c-steel-400: #6ea8d8; /* single restrained accent (interactive) */
+  --c-steel-500: #4d8bc0;
+  --c-steel-600: #3a6d9c;
+  --c-steel-glow: rgba(110, 168, 216, 0.16);
+
+  /* Status — epistemic state (restrained, not neon) */
+  --c-verified-500: #4fae7e;   /* green — relief/accomplishment, used sparingly */
+  --c-verified-050: rgba(79, 174, 126, 0.12);
+  --c-plausible-500: #d9a441;  /* amber — consideration */
+  --c-plausible-050: rgba(217, 164, 65, 0.12);
+  --c-unresolved-500: #7f93ab; /* neutral steel-gray */
+  --c-unresolved-050: rgba(127, 147, 171, 0.12);
+  --c-refuted-500: #c96a68;    /* muted red */
+  --c-refuted-050: rgba(201, 106, 104, 0.12);
+
+  /* Tier — evidentiary proximity (sequential intensity) */
+  --c-tier1: #6ea8d8;   /* T1 — first-party proximity, strongest */
+  --c-tier2: #8f9bb0;   /* T2 — descriptor undefined in contract */
+  --c-tier3: #6b7686;   /* T3 — behavioral analogue, NOT evidence */
+
+  /* Semantic mappings ------------------------------------------------------- */
+  --bg-page: var(--c-base-900);
+  --bg-surface: var(--c-base-800);
+  --bg-raised: var(--c-base-750);
+  --bg-floating: var(--c-base-700);
+  --bg-hover: var(--c-base-650);
+  --bg-inset: var(--c-base-850);
+
+  --text-strong: var(--c-ink-000);
+  --text-primary: var(--c-ink-100);
+  --text-secondary: var(--c-ink-200);
+  --text-muted: var(--c-ink-300);
+  --text-faint: var(--c-ink-400);
+
+  --border-hairline: var(--c-line-800);
+  --border-default: var(--c-line-700);
+  --border-strong: var(--c-line-600);
+
+  --accent: var(--c-steel-400);
+  --accent-strong: var(--c-steel-500);
+  --accent-glow: var(--c-steel-glow);
+
+  --focus-ring: var(--c-steel-400);
+
+  /* ---- Spacing — strict 4px grid ------------------------------------------ */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* ---- Typography — 1.25 (major third) scale ------------------------------ */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas,
+               "Liberation Mono", "Roboto Mono", monospace;
+
+  --text-xs: 0.75rem;    /* 12 — captions, chips */
+  --text-sm: 0.8125rem;  /* 13 — dense meta */
+  --text-base: 0.9375rem;/* 15 — body */
+  --text-md: 1.0625rem;  /* 17 */
+  --text-lg: 1.25rem;    /* 20 */
+  --text-xl: 1.5rem;     /* 24 */
+  --text-2xl: 1.875rem;  /* 30 */
+  --text-3xl: 2.25rem;   /* 36 — hero */
+
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.7;
+
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+  --tracking-caps: 0.08em;   /* uppercase labels */
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* ---- Elevation — consistent shadow levels ------------------------------- */
+  --elev-0: none;
+  --elev-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --elev-2: 0 2px 6px rgba(0, 0, 0, 0.45);
+  --elev-3: 0 8px 20px rgba(0, 0, 0, 0.5);
+  --elev-4: 0 16px 40px rgba(0, 0, 0, 0.55);
+  --elev-5: 0 24px 64px rgba(0, 0, 0, 0.6);
+
+  /* ---- Radius ------------------------------------------------------------- */
+  --radius-xs: 3px;
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+
+  /* ---- Motion — spring easing, sub-400ms interactions --------------------- */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.0, 0, 0.2, 1);
+
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+  --stagger-step: 40ms;
+
+  /* ---- Layout ------------------------------------------------------------- */
+  --page-max: 1160px;
+  --gutter: var(--space-4);
+  --drawer-width: 460px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+    --stagger-step: 0ms;
+  }
+}
