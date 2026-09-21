@@ -19,6 +19,18 @@ export const BUNDLE_PATH = "./data/public-bundle.json";
 /* The frozen contract version this renderer targets. */
 export const EXPECTED_SCHEMA_VERSION = "1.0.2";
 
+/* The specific subject THIS trace covers. TRACE is the (reusable) instrument;
+   a "trace" is one incident rendered through it. v1 keeps the subject here in
+   config; when a second trace lands this moves into the bundle as a certified
+   `subject` object (schema 1.1) so identity travels with the certified data and
+   cannot drift from it. label/total make the series explicit on the page. */
+export const TRACE_SUBJECT = {
+  label: "Trace 01",
+  total: 1,
+  title: "The July 2026 OpenAI–Hugging Face Agent Intrusion",
+  scope: "Incident 9–13 Jul 2026 · publicly disclosed 27 Jul 2026 (Hugging Face) & 26 Aug 2026 (METR / Redwood)",
+};
+
 /* The evidence standard, rendered as a lineage bar in the header. */
 export const EVIDENCE_STANDARD = [
   { key: "SEED A", text: "A disclosed origin artifact — the first-party seed." },
