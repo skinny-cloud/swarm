@@ -28,7 +28,7 @@ export function renderGraph(mount, model, onOpen) {
   mount.append(
     el("div", { class: "section-head" }, [
       el("h2", {}, "Evidence graph"),
-      el("p", {}, "Claims are nodes; edges are directed, sourced lineage statements (from → to). Layout is chronological (left = earlier first-seen), not force-directed. Each edge is itself reviewable evidence — its summary is listed in full below."),
+      el("p", {}, "Claims are nodes; edges are directed, sourced lineage statements (from → to). Layout is chronological (left = earlier occurrence), not force-directed. Each edge is itself reviewable evidence — its summary is listed in full below."),
     ])
   );
 
@@ -74,7 +74,7 @@ export function renderGraph(mount, model, onOpen) {
 
   // Chronology axis line.
   svg.append(s("line", { class: "edge-line", x1: M.left - 24, y1: height - M.bottom + 8, x2: width - M.right + 4, y2: height - M.bottom + 8, "stroke-dasharray": "3 4" }));
-  svg.append(s("text", { class: "graph-axis-label", x: M.left - 24, y: height - M.bottom + 24 }, "earlier first-seen"));
+  svg.append(s("text", { class: "graph-axis-label", x: M.left - 24, y: height - M.bottom + 24 }, "earlier occurrence"));
   svg.append(s("text", { class: "graph-axis-label", x: width - M.right + 4, y: height - M.bottom + 24, "text-anchor": "end" }, "later"));
 
   // Edges (skip dangling — those are surfaced in the integrity notice + list).
@@ -117,7 +117,7 @@ export function renderGraph(mount, model, onOpen) {
       class: "node-group", role: "button", tabindex: "0",
       "data-status": c.status || "",
       "data-gate": c._gate || "",
-      "aria-label": `Claim ${c.title}. Status ${c.status || "unknown"}.${gateNote} First seen ${fmtUTC(c.first_seen_external)} UTC.`,
+      "aria-label": `Claim ${c.title}. Status ${c.status || "unknown"}.${gateNote} ${c.occurrence_time ? "Occurred" : "Disclosed"} ${fmtUTC(c.occurrence_time || c.first_seen_external)} UTC.`,
       "data-testid": "graph-node", "data-public-id": c.public_id,
     }, [
       s("circle", { class: "node-dot", cx: p.x, cy: p.y, r: R }),
