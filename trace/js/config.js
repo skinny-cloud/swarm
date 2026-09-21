@@ -5,14 +5,31 @@
 
 /* The single line to flip at real launch. The public bundle cannot carry an
    is_sample flag (schema is additionalProperties:false), so sample mode is a
-   build-time constant, not data. See README. */
-export const SAMPLE_MODE = true;
+   build-time constant, not data. See README.
+   2026-09-20: flipped to false — the real #62 v1 bundle is wired (dx3 export,
+   sha256 488b812b…, jsonschema 0-error). It is REAL evidence, not sample data,
+   so the "Sample data" banner is off; the pre-certification state is carried
+   honestly by the bundle's own note and by every claim rendering in_review
+   (nothing is VERIFIED-green until CODEX independent tier-cert lands). */
+export const SAMPLE_MODE = false;
 
 /* Same-origin, relative. This is the ONLY resource the app fetches. */
 export const BUNDLE_PATH = "./data/public-bundle.json";
 
 /* The frozen contract version this renderer targets. */
 export const EXPECTED_SCHEMA_VERSION = "1.0.2";
+
+/* The specific subject THIS trace covers. TRACE is the (reusable) instrument;
+   a "trace" is one incident rendered through it. v1 keeps the subject here in
+   config; when a second trace lands this moves into the bundle as a certified
+   `subject` object (schema 1.1) so identity travels with the certified data and
+   cannot drift from it. label/total make the series explicit on the page. */
+export const TRACE_SUBJECT = {
+  label: "Trace 01",
+  total: 1,
+  title: "The July 2026 OpenAI–Hugging Face Agent Intrusion",
+  scope: "Incident 9–13 Jul 2026 · publicly disclosed 27 Jul 2026 (Hugging Face) & 26 Aug 2026 (METR / Redwood)",
+};
 
 /* The evidence standard, rendered as a lineage bar in the header. */
 export const EVIDENCE_STANDARD = [
