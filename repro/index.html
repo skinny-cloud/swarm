@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Hard boundary: the browser may reach nothing but this origin. No inline
+       script/style. frame-ancestors is delivered as an HTTP header (vercel.json);
+       it is ignored inside a <meta> CSP, so it is intentionally not here. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; manifest-src 'self'" />
+  <meta name="referrer" content="no-referrer" />
+
+  <title>REPRO — Agent-Harness Reproduction Index</title>
+  <meta name="description" content="REPRO, an instrument of the swarm lab: pre-registered attempts to reproduce publicly reported agent-harness defects on hardware we own, published success or not, with probes, raw counts and evidence. Entries, not ratings." />
+  <meta name="robots" content="index,follow" />
+  <meta name="color-scheme" content="dark" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Crect%20width='24'%20height='24'%20fill='%23070a0e'/%3E%3Cpath%20d='M17%208a6%206%200%201%200%201%206'%20fill='none'%20stroke='%236ea8d8'%20stroke-width='1.8'%20stroke-linecap='round'/%3E%3Cpath%20d='M17%203v5h-5'%20fill='none'%20stroke='%236ea8d8'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E" />
+
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <a class="skip-link" href="#app">Skip to content</a>
+
+  <main class="shell" id="app" aria-live="polite"></main>
+
+  <footer class="shell foot">
+    <span>REPRO · static instrument · reads one same-origin bundle</span>
+    <span><a href="/">swarm.skinny.cloud</a> · entries, not ratings</span>
+  </footer>
+
+  <noscript>
+    <div class="shell noscript-shell">
+      <div class="state state--error">
+        <h3>JavaScript is required</h3>
+        <p>This instrument renders a local bundle in the browser. No external scripts are loaded; everything is same-origin and static.</p>
+      </div>
+    </div>
+  </noscript>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
