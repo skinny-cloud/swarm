@@ -43,7 +43,7 @@ function renderMasthead(model) {
     el("p", { class: "masthead__lede" },
       "For a small set of agent-runtime defects already reported on a vendor's public tracker, fixed and " +
       "pre-registered before any probe ran, we try to reproduce each one on a machine we own and publish what " +
-      "happened, success or not. Each entry is titled by the invariant that broke, never by the vendor, and " +
+      "happened, success or not. Each entry is titled by the invariant it tests, never by the vendor, and " +
       "carries its probe, raw counts per arm, counterfactual, limits and evidence."),
     el("div", { class: "disclaimer", role: "note", "data-testid": "non-claims" }, [
       icon("shield", 18),
@@ -77,10 +77,12 @@ function renderProvenance(m) {
   const method = safeHref(m.index.method_url);
   const doi = m.index.doi ? `https://doi.org/${m.index.doi}` : null;
   return el("div", { class: "provenance" }, [
+    // method_sha256 commits to the as-run method; the link may be a redacted public
+    // copy, which hashes differently. Label both so a reader checks the right thing.
     el("span", {}, [
-      "method sha256 ",
+      "as-run method sha256 ",
       el("span", { class: "mono", title: m.index.method_sha256 || "" }, (m.index.method_sha256 || "?").slice(0, 12) + "…"),
-      method ? [" · ", extLink(method, "pre-registration")] : null,
+      method ? [" · ", extLink(method, "public copy of the method")] : null,
     ]),
     el("span", {}, doi && safeHref(doi)
       ? ["evidence ", extLink(safeHref(doi), `doi:${m.index.doi}`)]
