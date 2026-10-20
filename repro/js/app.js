@@ -44,7 +44,8 @@ function renderMasthead(model) {
       "For a small set of agent-runtime defects already reported on a vendor's public tracker, chosen and " +
       "pre-registered before any probe ran, NXTG tries to reproduce each one on a machine it owns and publishes what " +
       "happened, success or not. Each entry is titled by the invariant it tests, never by the vendor, and " +
-      "carries its probe, raw counts per arm, counterfactual, limits and evidence."),
+      "carries its probe, raw counts per arm, counterfactual, limits and evidence where a trial ran; entries " +
+      "that did not run say what is missing."),
     el("div", { class: "disclaimer", role: "note", "data-testid": "non-claims" }, [
       icon("shield", 18),
       el("span", {}, [el("strong", {}, "Limits. "), NON_CLAIMS]),

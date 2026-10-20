@@ -77,4 +77,5 @@ export const NON_CLAIMS =
 /* Per-entry limits, repeated on every entry so an excerpt cannot drop them. */
 export const ENTRY_LIMITS =
   "One host, one environment, small N. Says nothing about how often users hit this, and makes no " +
-  "root-cause claim beyond quoting the report.";
+  "root-cause claim beyond quoting the report. A non-reproduction does not show the defect is absent. " +
+  "Not a rating; the reproduced entries are neither a comparison between vendors nor a coverage guarantee.";
