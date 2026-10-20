@@ -1,0 +1,273 @@
+{
+  "schema_version": "1.0.0",
+  "generated_utc": "2026-10-20T23:35:26Z",
+  "index": {
+    "edition": "v0",
+    "method_sha256": "c660b37b821de85343217cf38427135abb7ca4adb7ff01c26d62fab203bbfc51",
+    "method_url": "https://zenodo.org/records/23518970/files/TRACE-INDEX-v0-PREREG.as-run.redacted.md",
+    "run_window_closed_utc": "2026-10-17T12:00:00Z",
+    "doi": "10.5281/zenodo.23518970",
+    "limits": "Not a rating of any product, a prevalence estimate, a root-cause finding or a certification. Each entry reports one probe on one environment. A non-reproduction does not show that a defect is absent. The reproduced entries are not a coverage guarantee, and the entries are not a comparison between vendors."
+  },
+  "entries": [
+    {
+      "id": "T1",
+      "order": 1,
+      "invariant": "A sub-agent's model context holds only its own branch: a parallel sibling's output must not appear in it",
+      "vendor": "Google",
+      "source_url": "https://github.com/google/adk-python/issues/7488",
+      "affected_version": "google-adk 2.11.0",
+      "affected_version_date": "2026-10-12",
+      "supersession_version": null,
+      "verdict": "NOT_REPRODUCED",
+      "verdict_reason": null,
+      "arms": [
+        {
+          "label": "parallel_agent baseline",
+          "version": "google-adk 2.11.0",
+          "role": "trial",
+          "valid": 3,
+          "invalid": 0,
+          "violations": 0,
+          "threshold": "3/3",
+          "notes": null
+        },
+        {
+          "label": "parallel_agent counterfactual",
+          "version": "google-adk 2.11.0",
+          "role": "counterfactual",
+          "valid": 3,
+          "invalid": 0,
+          "violations": 0,
+          "threshold": null,
+          "notes": "The reporter's proposed fix monkeypatched (scan start = event count when the sub-agent's context was created); must show no sibling text, else INCONCLUSIVE."
+        }
+      ],
+      "probe": "Own probe written from the mechanism in the report: two single_turn sub-agents on one session under a ParallelAgent parent, stub models, no model call, rootless podman, network off (t1-adk-7488/probe.py, Containerfile, run.sh). It records the exact contents built for sub-agent B and checks that A had appended its output before B was built. A reporter cross-check and dev runs are in xcheck/ and out/dev-*, not counted.",
+      "raw_result": "Baseline 3 VALID, 0 INVALID, 0 with the sibling's text in B's contents or model request; counterfactual 3 VALID, 0 violations.",
+      "counterfactual": "The same probe with the reporter's proposed fix monkeypatched: no sibling text, as required.",
+      "detection_limits": "One harness shape (ParallelAgent, include_contents none set explicitly); the issue anchors B on a parent agent event, this probe on the root user message, and that anchor was not tested. Stub models only.",
+      "uncertainty": "Three trials per arm. A non-reproduction does not show the defect is absent in other harness shapes or versions. The image digest of the counted run was not recorded; the last recorded build before it (DEV-LOG run 11, 2026-10-12 20:04Z, the same probe.py) is sha256:b9358b41d9e1aaf0bc652a35367bd96e5a81b50c3a223ab9a6b85a900bc6ca72. Probe files were not under version control when the trials ran; they are archived as run (file times 2026-10-12, before the counted runs) and were first committed in a private working repository on 2026-10-17 with no change. No probe commit existed at run time. This entry is not a rating, a prevalence estimate, a root-cause finding, a coverage guarantee or a comparison between vendors.",
+      "supersession": "None: 2.11.0 was the latest release on 2026-10-12.",
+      "run_utc": [
+        "2026-10-12T20:11:16Z"
+      ],
+      "host": "NXTG-owned Linux host",
+      "image_digest": null,
+      "probe_commit": null,
+      "spend": "0 USD (no model call)",
+      "evidence_path": "t1-adk-7488"
+    },
+    {
+      "id": "T2",
+      "order": 2,
+      "invariant": "With the sandbox enabled, a trivial Bash command (echo trace-ok) runs",
+      "vendor": "Anthropic",
+      "source_url": "https://github.com/anthropics/claude-code/issues/99680",
+      "affected_version": "Claude Code 2.1.289",
+      "affected_version_date": "2026-10-12",
+      "supersession_version": "Claude Code 2.1.296",
+      "verdict": "NOT_REPRODUCED",
+      "verdict_reason": null,
+      "arms": [
+        {
+          "label": "affected",
+          "version": "Claude Code 2.1.289",
+          "role": "trial",
+          "valid": 3,
+          "invalid": 0,
+          "violations": 0,
+          "threshold": "2/3",
+          "notes": "Controls: C1 ok, C2 ok"
+        },
+        {
+          "label": "supersession",
+          "version": "Claude Code 2.1.296",
+          "role": "supersession",
+          "valid": 3,
+          "invalid": 0,
+          "violations": 0,
+          "threshold": null,
+          "notes": "Controls: C1 ok, C2 ok"
+        }
+      ],
+      "probe": "Rootless podman, ubuntu:24.04 (merged-usr), apt bubblewrap, the pinned Claude Code from npm, sandbox on, one model turn (claude-haiku-4-5) asking for `echo trace-ok` (t2-claude-99680/run.py, Containerfile). Two environment controls in the same container: C1 a minimal bwrap echo, C2 the same command with the sandbox off.",
+      "raw_result": "2.1.289: 3 VALID, 0 INVALID, 0 with the bwrap ENOENT failure; 2.1.296: 3 VALID, 0 INVALID, 0 violations. Controls: C1 ok, C2 ok on both versions.",
+      "counterfactual": "C2 (sandbox off) runs the same command as the control for the sandbox itself.",
+      "detection_limits": "Ubuntu 24.04 with bubblewrap 0.9.0; the reporter used Debian trixie with bubblewrap 0.12.0. A non-counted diagnostic with sandbox.failIfUnavailable=true still ran, so the sandbox was available.",
+      "uncertainty": "Three trials per version. A non-reproduction does not show the defect is absent on other distributions. The container image digest was not recorded. Probe files were not under version control when the trials ran; they are archived as run (file times 2026-10-12, before the counted runs) and were first committed in a private working repository on 2026-10-17 with no change. No probe commit existed at run time. This entry is not a rating, a prevalence estimate, a root-cause finding, a coverage guarantee or a comparison between vendors.",
+      "supersession": "Same protocol on 2.1.296: 3 VALID, 0 violations.",
+      "run_utc": [
+        "2026-10-12T19:59:25Z",
+        "2026-10-12T19:59:30Z",
+        "2026-10-12T19:59:36Z",
+        "2026-10-12T20:01:35Z",
+        "2026-10-12T20:01:42Z",
+        "2026-10-12T20:01:48Z"
+      ],
+      "host": "NXTG-owned Linux host",
+      "image_digest": null,
+      "probe_commit": null,
+      "spend": "0.12671425 USD as reported in the captured results (cost_usd), including controls and the diagnostic; not an invoice total",
+      "evidence_path": "t2-claude-99680"
+    },
+    {
+      "id": "T3",
+      "order": 3,
+      "invariant": "With --disable multi_agent, a run must not spawn a subagent",
+      "vendor": "OpenAI",
+      "source_url": "https://github.com/openai/codex/issues/50880",
+      "affected_version": "codex-cli 0.160.0",
+      "affected_version_date": "2026-10-12",
+      "supersession_version": "codex-cli 0.162.1",
+      "verdict": "REPRODUCED",
+      "verdict_reason": null,
+      "arms": [
+        {
+          "label": "run C affected",
+          "version": "codex-cli 0.160.0",
+          "role": "trial",
+          "valid": 5,
+          "invalid": 0,
+          "violations": 5,
+          "threshold": "3/5",
+          "notes": null
+        },
+        {
+          "label": "run C counterfactual",
+          "version": "codex-cli 0.160.0",
+          "role": "counterfactual",
+          "valid": 2,
+          "invalid": 0,
+          "violations": 0,
+          "threshold": null,
+          "notes": null
+        },
+        {
+          "label": "run A supersession",
+          "version": "codex-cli 0.162.1",
+          "role": "supersession",
+          "valid": 5,
+          "invalid": 0,
+          "violations": 5,
+          "threshold": "3/5",
+          "notes": "Launched under the label affected-0.160.0; every rollout records cli_version 0.162.1, so it is filed as the supersession arm."
+        },
+        {
+          "label": "run A counterfactual",
+          "version": "codex-cli 0.162.1",
+          "role": "counterfactual",
+          "valid": 2,
+          "invalid": 0,
+          "violations": 0,
+          "threshold": null,
+          "notes": null
+        }
+      ],
+      "probe": "The reporter's command with `--disable multi_agent` and -m gpt-5.6-sol, 0.160.0 on a pinned binary and 0.162.1 via the globally installed binary (version verified from every rollout), each trial in a fresh CODEX_HOME and temporary directory (t3-codex-50880/run_trial.py, run_affected.sh). A spawn counts only when a child rollout names that trial's own exec thread as its parent; a child bound to another parent is INVALID.",
+      "raw_result": "0.160.0: 5 VALID, 0 INVALID, 5 genuine spawns; counterfactual 2 VALID, 0 spawns. 0.162.1: 5 VALID, 5 genuine spawns; counterfactual 2 VALID, 0 spawns. Run B was a harness failure with zero Codex invocations (out/runB*).",
+      "counterfactual": "2 trials with -c 'features.multi_agent_v2={enabled=false, max_concurrent_threads_per_session=1}', expected to refuse the spawn: the attempt returned \"agent thread limit reached\" and no child rollout exists.",
+      "detection_limits": "One account and model (gpt-5.6-sol); the child is detected from local rollout files, not from the service.",
+      "uncertainty": "Five VALID trials per arm. A reproduction shows the invariant can break on this version here; it says nothing about how often or why. Probe files were not under version control when the trials ran; they are archived as run (file times 2026-10-12, before the counted runs) and were first committed in a private working repository on 2026-10-17 with no change. No probe commit existed at run time. This entry is not a rating, a prevalence estimate, a root-cause finding, a coverage guarantee or a comparison between vendors.",
+      "supersession": "Present in the latest release tested: 0.162.1 showed 5 of 5 genuine spawns.",
+      "run_utc": [
+        "2026-10-12T19:54:09Z",
+        "2026-10-12T20:00:03Z"
+      ],
+      "host": "NXTG-owned Linux host",
+      "image_digest": null,
+      "probe_commit": null,
+      "spend": null,
+      "evidence_path": "t3-codex-50880"
+    },
+    {
+      "id": "T4",
+      "order": 4,
+      "invariant": "An unattended run whose subagent raises a permission prompt must end (approve, deny or time out) instead of stalling",
+      "vendor": "Anthropic",
+      "source_url": "https://github.com/anthropics/claude-code/issues/99899",
+      "affected_version": "Claude Code 2.1.291",
+      "affected_version_date": "2026-10-12",
+      "supersession_version": null,
+      "verdict": "NOT_FINISHED",
+      "verdict_reason": "All runs had to finish by 2026-10-17 12:00Z (prereg A1). One paired trial launched on 2026-10-12 (main arm 20:11Z, sub arm 20:14Z) produced no completed model turn: the main arm returned \"Credit balance too low\", and the run was aborted. It is not a counted trial.",
+      "arms": [
+        {
+          "label": "affected (aborted)",
+          "version": "Claude Code 2.1.291",
+          "role": "trial",
+          "valid": 0,
+          "invalid": 1,
+          "violations": 0,
+          "threshold": null,
+          "notes": "One paired trial (main and sub arm launches) with no completed model turn; published, not counted."
+        }
+      ],
+      "probe": "The reporter's steps in a throwaway tmux session inside a rootless container, one model (claude-haiku-4-5) (t4-claude-99899/driver.sh, run.sh, Containerfile).",
+      "raw_result": "One incomplete paired trial (two arm launches), 0 VALID; the main arm shows \"Credit balance too low\"; the sub arm has no completed-turn evidence. See out/affected-2.1.291.",
+      "counterfactual": null,
+      "detection_limits": "Not reached: no counted trial.",
+      "uncertainty": "Nothing is claimed about this report either way. This entry is not a rating, a prevalence estimate, a root-cause finding, a coverage guarantee or a comparison between vendors.",
+      "supersession": null,
+      "run_utc": [
+        "2026-10-12T20:11:13Z",
+        "2026-10-12T20:14:29Z"
+      ],
+      "host": "NXTG-owned Linux host",
+      "image_digest": null,
+      "probe_commit": null,
+      "spend": null,
+      "evidence_path": "t4-claude-99899"
+    },
+    {
+      "id": "T5",
+      "order": 5,
+      "invariant": "A task whose Blocked by dependency is unresolved cannot be claimed",
+      "vendor": "Anthropic",
+      "source_url": "https://github.com/anthropics/claude-code/issues/101029",
+      "affected_version": "Claude Code 2.1.296, experimental agent teams",
+      "affected_version_date": "2026-10-12",
+      "supersession_version": null,
+      "verdict": "NOT_FINISHED",
+      "verdict_reason": "All runs had to finish by 2026-10-17 12:00Z (prereg A1); this entry was not started before then.",
+      "arms": [],
+      "probe": "Frozen in the method before any run (prereg A1.4, A2); see the method.",
+      "raw_result": "No counted trial ran before the window closed.",
+      "counterfactual": null,
+      "detection_limits": "Not reached: no counted trial.",
+      "uncertainty": "Nothing is claimed about this report either way. This entry is not a rating, a prevalence estimate, a root-cause finding, a coverage guarantee or a comparison between vendors.",
+      "supersession": null,
+      "run_utc": [],
+      "host": "NXTG-owned Linux host",
+      "image_digest": null,
+      "probe_commit": null,
+      "spend": null,
+      "evidence_path": "t5-not-run"
+    },
+    {
+      "id": "T6",
+      "order": 6,
+      "invariant": "TRACEPARENT propagates to the interaction span and its llm_request and tool children with the specified parent links",
+      "vendor": "Anthropic",
+      "source_url": "https://github.com/anthropics/claude-code/issues/99607",
+      "affected_version": "Claude Code 2.1.289",
+      "affected_version_date": "2026-10-12",
+      "supersession_version": null,
+      "verdict": "NOT_FINISHED",
+      "verdict_reason": "All runs had to finish by 2026-10-17 12:00Z (prereg A1); this entry was not started before then.",
+      "arms": [],
+      "probe": "Frozen in the method before any run (prereg A1.4, A2); see the method.",
+      "raw_result": "No counted trial ran before the window closed.",
+      "counterfactual": null,
+      "detection_limits": "Not reached: no counted trial.",
+      "uncertainty": "Nothing is claimed about this report either way. This entry is not a rating, a prevalence estimate, a root-cause finding, a coverage guarantee or a comparison between vendors.",
+      "supersession": null,
+      "run_utc": [],
+      "host": "NXTG-owned Linux host",
+      "image_digest": null,
+      "probe_commit": null,
+      "spend": null,
+      "evidence_path": "t6-not-run"
+    }
+  ]
+}
