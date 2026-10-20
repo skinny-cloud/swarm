@@ -36,18 +36,18 @@ function renderMasthead(model) {
   const head = el("header", { class: "masthead" }, [
     el("div", { class: "eyebrow" }, [
       el("span", { class: "eyebrow__mark", "aria-hidden": "true" }),
-      "REPRO — Agent-Harness Reproduction Index · Instrument 02",
+      "REPRO: Agent-Harness Reproduction Index · Instrument 02",
     ]),
-    el("h1", { "data-testid": "repro-title" }, "Reported agent-harness defects, reproduced on hardware we own — or not."),
+    el("h1", { "data-testid": "repro-title" }, "Reported agent-harness defects, reproduced on a machine NXTG owns, or not."),
     model && !model.empty ? el("p", { class: "masthead__subject", "data-testid": "repro-subject" }, subjectLine(model)) : null,
     el("p", { class: "masthead__lede" },
-      "For a small set of agent-runtime defects already reported on a vendor's public tracker, fixed and " +
-      "pre-registered before any probe ran, we try to reproduce each one on a machine we own and publish what " +
+      "For a small set of agent-runtime defects already reported on a vendor's public tracker, chosen and " +
+      "pre-registered before any probe ran, NXTG tries to reproduce each one on a machine it owns and publishes what " +
       "happened, success or not. Each entry is titled by the invariant it tests, never by the vendor, and " +
       "carries its probe, raw counts per arm, counterfactual, limits and evidence."),
     el("div", { class: "disclaimer", role: "note", "data-testid": "non-claims" }, [
       icon("shield", 18),
-      el("span", {}, [el("strong", {}, "Not a rating. "), NON_CLAIMS]),
+      el("span", {}, [el("strong", {}, "Limits. "), NON_CLAIMS]),
     ]),
   ]);
 
@@ -233,7 +233,7 @@ function renderIntegrity(warnings) {
   warnings.forEach((w) => list.append(el("li", {}, w)));
   return el("div", { class: "integrity", role: "alert", "data-testid": "integrity-notice" }, [
     icon("alert", 18),
-    el("div", {}, [el("strong", {}, `${warnings.length} integrity notice${warnings.length > 1 ? "s" : ""} — surfaced, not hidden:`), list]),
+    el("div", {}, [el("strong", {}, `${warnings.length} integrity notice${warnings.length > 1 ? "s" : ""}, shown, not hidden:`), list]),
   ]);
 }
 
