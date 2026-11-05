@@ -16,7 +16,7 @@ export function renderTimeline(mount, model, onOpen) {
   mount.append(
     el("div", { class: "section-head" }, [
       el("h2", {}, "Contamination timeline"),
-      el("p", {}, "Ordered by first-seen-external — each artifact's own external timestamp (git author-date, Wayback, or HF commit), never ingestion time. All times UTC."),
+      el("p", {}, "Ordered by occurrence time — when each event happened in the incident. Where the source gives no event time, ordered by first-seen-external (public disclosure); each card is labeled which it shows. All times UTC."),
     ])
   );
 
@@ -33,8 +33,9 @@ export function renderTimeline(mount, model, onOpen) {
     }, [
       el("div", { class: "tl-time" }, [
         icon("clock", 13),
-        fmtUTC(c.first_seen_external, { withTime: false }),
+        fmtUTC(c.occurrence_time || c.first_seen_external, { withTime: false }),
         el("span", { class: "utc-tag" }, "UTC"),
+        el("span", { class: "utc-tag" }, c.occurrence_time ? "· occurred" : "· disclosed"),
       ]),
       el("div", { class: "card__title" }, c.title || "(untitled claim)"),
       el("div", { class: "card__meta" }, [

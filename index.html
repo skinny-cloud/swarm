@@ -7,10 +7,12 @@
   <!-- Same hard boundary as the instruments: the browser may reach nothing but
        this origin. No script at all on the landing; styles are same-origin
        stylesheets; data: only for the inline favicon. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" />
+  <!-- frame-ancestors is delivered as an HTTP header (vercel.json); it is
+       ignored inside a <meta> CSP, so it is intentionally not here. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'" />
   <meta name="referrer" content="no-referrer" />
 
-  <title>swarm — a public agent-systems laboratory</title>
+  <title>swarm: a public agent-systems laboratory</title>
   <meta name="description" content="swarm.skinny.cloud is a public agent-systems laboratory: evidence-gated, independently reviewable instruments for understanding how agentic systems behave. Methodology, not marketing." />
   <meta name="robots" content="index,follow" />
   <meta name="color-scheme" content="dark" />
@@ -31,16 +33,16 @@
       <p class="sub">
         Evidence-gated, independently reviewable instruments for understanding how
         agentic systems behave in the wild. Every instrument makes its epistemic
-        status visible and publishes nothing it cannot prove — methodology, not
+        status visible and marks what it has not proven: methodology, not
         accusation.
       </p>
     </header>
 
     <section class="instruments" aria-labelledby="instruments-label">
       <h2 class="section-label" id="instruments-label">Instruments</h2>
-      <ul class="grid">
+      <ul class="grid grid--single">
 
-        <li class="card card--live">
+        <li class="card card--live card--feature">
           <a class="card-link" href="/trace/">
             <div class="card-top">
               <span class="pill pill--live">Live</span>
@@ -51,43 +53,19 @@
             <p class="card-desc">
               Reconstructs how material spreads and reappears across the internet:
               a timeline ordered by each artifact's own external timestamp, a
-              directed evidence graph of lineage, and a separate source ledger —
+              directed evidence graph of lineage, and a separate source ledger,
               each claim held behind an independent-review gate.
             </p>
             <span class="card-cta">Open TRACE<span class="arrow" aria-hidden="true">&#8594;</span></span>
           </a>
         </li>
 
-        <li class="card card--soon" aria-disabled="true">
-          <div class="card-top">
-            <span class="pill pill--soon">Coming soon</span>
-            <span class="card-idx">02</span>
-          </div>
-          <h3 class="card-title">Next instrument</h3>
-          <p class="card-kicker">In development</p>
-          <p class="card-desc">
-            Another evidence-gated instrument for the swarm lab. It will follow the
-            same standard: same-origin, no tracking, and no finding published
-            before independent review.
-          </p>
-          <span class="card-cta card-cta--muted">Coming soon</span>
-        </li>
-
-        <li class="card card--soon" aria-disabled="true">
-          <div class="card-top">
-            <span class="pill pill--soon">Coming soon</span>
-            <span class="card-idx">03</span>
-          </div>
-          <h3 class="card-title">Next instrument</h3>
-          <p class="card-kicker">In development</p>
-          <p class="card-desc">
-            The lab grows one reviewable instrument at a time. New experiences are
-            announced here as they clear the same evidence and review bar.
-          </p>
-          <span class="card-cta card-cta--muted">Coming soon</span>
-        </li>
-
       </ul>
+
+      <p class="roadmap-note">
+        The lab grows one reviewable instrument at a time. New instruments appear
+        here only once they clear the same evidence-and-review bar.
+      </p>
     </section>
 
     <footer class="lab-foot">

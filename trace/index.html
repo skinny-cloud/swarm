@@ -7,11 +7,13 @@
   <!-- Hard boundary: the browser is FORBIDDEN from reaching anything but this
        origin. 'self' only; no inline script/style (enforces Tailwind-free,
        token-driven CSS and DOM-built scripts); data: images for the favicon. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; manifest-src 'self'" />
+  <!-- frame-ancestors is delivered as an HTTP header (vercel.json); it is
+       ignored inside a <meta> CSP, so it is intentionally not here. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; manifest-src 'self'" />
   <meta name="referrer" content="no-referrer" />
 
-  <title>TRACE — Internet Contamination Observatory</title>
-  <meta name="description" content="TRACE renders a certified public bundle of internet-contamination lineage evidence. A forensic methodology — claims, sourced lineage edges, and provenance kept separate. Methodology, not accusation." />
+  <title>TRACE 01 — The July 2026 OpenAI–Hugging Face Agent Intrusion</title>
+  <meta name="description" content="TRACE 01 — an evidence-gated reconstruction of the July 2026 OpenAI–Hugging Face agent intrusion: independently reviewed claims, sourced lineage, provenance kept separate. Methodology, not accusation." />
   <meta name="robots" content="index,follow" />
   <meta name="color-scheme" content="dark" />
 

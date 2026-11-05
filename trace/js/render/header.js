@@ -3,22 +3,23 @@
    No inline styles — CSP forbids them and so does the design system. */
 
 import { el, icon, fmtUTC } from "../util.js";
-import { EVIDENCE_STANDARD } from "../config.js";
+import { EVIDENCE_STANDARD, TRACE_SUBJECT } from "../config.js";
 
 export function renderHeader(mount, model) {
   const head = el("header", { class: "masthead" }, [
     el("div", { class: "eyebrow" }, [
       el("span", { class: "eyebrow__mark", "aria-hidden": "true" }),
-      "TRACE — Internet Contamination Observatory",
+      `TRACE — Internet Contamination Observatory · ${TRACE_SUBJECT.label} of ${TRACE_SUBJECT.total}`,
     ]),
-    el("h1", {}, [
-      "A ", el("span", { class: "accent" }, "methodology"), " for tracing how artifacts spread — not an accusation.",
-    ]),
-    el("p", { class: "masthead__lede" },
+    el("h1", { "data-testid": "trace-title" }, TRACE_SUBJECT.title),
+    el("p", { class: "masthead__subject", "data-testid": "trace-subject" }, TRACE_SUBJECT.scope),
+    el("p", { class: "masthead__lede" }, [
+      "A ", el("span", { class: "accent" }, "methodology"), " for tracing how artifacts spread — not an accusation. ",
       "TRACE traces lineage between a disclosed origin artifact and the candidates that appear " +
       "downstream across the public internet. Every claim is a node, every edge is a sourced, " +
-      "reviewable statement about descent. The observatory renders a certified public bundle of that " +
-      "evidence — the three planes (claims, lineage edges, provenance) kept deliberately separate."),
+      "reviewable statement about descent. This trace renders a certified public bundle of that " +
+      "evidence — the three planes (claims, lineage edges, provenance) kept deliberately separate.",
+    ]),
 
     renderStandard(),
     renderDisclaimer(),

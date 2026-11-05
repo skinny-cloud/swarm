@@ -187,10 +187,14 @@ function normalize(raw) {
     if (e._gate === "mismatch") warnings.push(`Edge ${e.public_id}: VERIFIED but review/verified_time gate not satisfied.`);
   }
 
-  // Timeline order: strictly by first_seen_external (the artifact's OWN time).
+  // Timeline order: by occurrence_time (when the event happened in the incident),
+  // falling back to first_seen_external (public disclosure) when the source gives
+  // no event time. Ordering by first_seen_external alone collapses to a couple of
+  // disclosure dates and loses the incident chronology (dx3 go-live directive,
+  // 2026-09-21: occurrence_time = incident event; first_seen_external = disclosure).
   const timeline = [...claims].sort((a, b) => {
-    const ta = parseTs(a.first_seen_external)?.getTime() ?? Infinity;
-    const tb = parseTs(b.first_seen_external)?.getTime() ?? Infinity;
+    const ta = parseTs(a.occurrence_time || a.first_seen_external)?.getTime() ?? Infinity;
+    const tb = parseTs(b.occurrence_time || b.first_seen_external)?.getTime() ?? Infinity;
     return ta - tb;
   });
 

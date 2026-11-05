@@ -10,9 +10,9 @@ not a dashboard.
 a sober **forensic evidence artifact** that shows exactly what it can prove and
 nothing it cannot.
 
-- **Timeline** — claims ordered strictly by each artifact's *own* external
-  timestamp (git author-date / archive / commit), never ingestion time. All
-  times UTC, labeled.
+- **Timeline** — claims ordered by **occurrence time** (when the event happened
+  in the incident), falling back to first-seen-external (public disclosure) when
+  the source gives no event time; never ingestion time. All times UTC, labeled.
 - **Evidence graph** — claims are nodes; edges are directed lineage that carry
   the relationship *and its own evidence*. Deterministic layout, inline SVG.
 - **Epistemic status is first-class** — every claim is visibly `VERIFIED`,
@@ -22,9 +22,10 @@ nothing it cannot.
 - **Methodology, not accusation** — nothing is a finding until the
   independent-review gate passes.
 
-> The observatory currently renders **sample data** (clearly banner-marked).
-> Real certified bundles drop in unchanged — the app renders any bundle that
-> satisfies the frozen public data contract, with no code change.
+> The observatory renders the **independently certified** #62 v1 public bundle
+> (C1–C5 VERIFIED after independent tier-cert; the self-replication question
+> stays UNRESOLVED). Any bundle satisfying the frozen public data contract
+> renders with no code change.
 
 ## Architecture
 
