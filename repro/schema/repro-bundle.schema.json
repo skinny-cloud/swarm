@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://swarm.skinny.cloud/repro/schema/repro-bundle.schema.json",
+  "title": "REPRO public bundle",
+  "description": "Public data contract for REPRO, the Agent-Harness Reproduction Index on swarm.skinny.cloud. One bundle = one edition of reproduction entries. The results owner emits it from the reviewed, redacted entry files; the instrument only validates and renders it. Every entry carries the nine pre-registered fields (canonical source, dated affected version, probe, expected invariant, raw result, detection limits, counterfactual, uncertainty, historical supersession) plus run provenance and a verdict.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_utc", "index", "entries"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "generated_utc": { "type": "string", "format": "date-time" },
+    "index": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["edition", "method_sha256", "method_url", "run_window_closed_utc", "doi", "limits"],
+      "properties": {
+        "edition": { "type": "string", "pattern": "^v[0-9]+(\\.[0-9]+)*$", "description": "Edition of the index, e.g. v0." },
+        "method_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$", "description": "sha256 of the pre-registered method the entries were run under." },
+        "method_url": { "type": "string", "format": "uri", "pattern": "^https://", "maxLength": 300, "description": "Public copy of the pre-registered method." },
+        "run_window_closed_utc": { "type": "string", "format": "date-time" },
+        "doi": {
+          "type": ["string", "null"],
+          "pattern": "^10\\.[0-9]{4,9}/[-._;()/:A-Za-z0-9]+$",
+          "description": "DOI of the evidence archive (probe scripts, redacted raw outputs, SHA256SUMS). Null only before the archive is minted; the renderer flags a null DOI as an integrity notice."
+        },
+        "limits": { "type": "string", "minLength": 1, "maxLength": 1500, "description": "Index-level non-claims: no rating, no prevalence, no root cause, a non-reproduction does not show absence, not a vendor comparison." }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "maxItems": 50,
+      "items": { "$ref": "#/$defs/entry" }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "order", "invariant", "vendor", "source_url", "affected_version", "affected_version_date",
+        "verdict", "arms", "probe", "raw_result", "detection_limits", "uncertainty", "host", "evidence_path"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^T[0-9]{1,3}$" },
+        "order": { "type": "integer", "minimum": 1 },
+        "invariant": { "type": "string", "minLength": 1, "maxLength": 200, "description": "Expected invariant, used as the entry title. Names what broke, never a vendor." },
+        "vendor": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "source_url": { "type": "string", "format": "uri", "pattern": "^https://github\\.com/[^/]+/[^/]+/issues/[0-9]+$", "description": "Canonical source: the vendor's public issue." },
+        "affected_version": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "affected_version_date": { "type": "string", "format": "date", "description": "Date the affected version was pinned (dated affected version)." },
+        "supersession_version": { "type": ["string", "null"], "maxLength": 80 },
+        "verdict": {
+          "enum": ["REPRODUCED", "OBSERVED_BELOW_THRESHOLD", "NOT_REPRODUCED", "INCONCLUSIVE", "NOT_ATTEMPTED", "NOT_FINISHED"]
+        },
+        "verdict_reason": { "type": ["string", "null"], "maxLength": 600, "description": "Required for INCONCLUSIVE, NOT_ATTEMPTED and NOT_FINISHED." },
+        "arms": {
+          "type": "array",
+          "maxItems": 12,
+          "description": "Raw counts per arm. Empty only when no trial ran.",
+          "items": { "$ref": "#/$defs/arm" }
+        },
+        "probe": { "type": "string", "minLength": 1, "maxLength": 2000, "description": "Reproducible minimal environment and probe." },
+        "raw_result": { "type": "string", "minLength": 1, "maxLength": 2000 },
+        "counterfactual": { "type": ["string", "null"], "maxLength": 1200 },
+        "detection_limits": { "type": "string", "minLength": 1, "maxLength": 1200 },
+        "uncertainty": { "type": "string", "minLength": 1, "maxLength": 1200 },
+        "supersession": { "type": ["string", "null"], "maxLength": 1200, "description": "Historical supersession: the same probe on a later release, if run." },
+        "run_utc": { "type": "array", "maxItems": 20, "items": { "type": "string", "format": "date-time" } },
+        "host": { "const": "NXTG-owned Linux host" },
+        "image_digest": { "type": ["string", "null"], "pattern": "^sha256:[0-9a-f]{64}$" },
+        "probe_commit": { "type": ["string", "null"], "pattern": "^[0-9a-f]{7,40}$" },
+        "spend": { "type": ["string", "null"], "maxLength": 200 },
+        "evidence_path": { "type": "string", "minLength": 1, "maxLength": 200, "pattern": "^[A-Za-z0-9._/-]+$", "description": "Path of this entry's files inside the DOI archive." }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "verdict": { "enum": ["INCONCLUSIVE", "NOT_ATTEMPTED", "NOT_FINISHED"] } } },
+          "then": { "required": ["verdict_reason"], "properties": { "verdict_reason": { "type": "string", "minLength": 1 } } }
+        }
+      ]
+    },
+    "arm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "version", "role", "valid", "invalid", "violations"],
+      "properties": {
+        "label": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "version": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "role": { "enum": ["trial", "counterfactual", "control", "supersession"] },
+        "valid": { "type": "integer", "minimum": 0 },
+        "invalid": { "type": "integer", "minimum": 0 },
+        "violations": { "type": "integer", "minimum": 0 },
+        "threshold": { "type": ["string", "null"], "pattern": "^[0-9]+/[0-9]+$" },
+        "notes": { "type": ["string", "null"], "maxLength": 600 }
+      }
+    }
+  }
+}
